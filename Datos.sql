@@ -8,15 +8,21 @@ VALUES
 ('staff_kitchen'),
 ('admin');
 
+/******
+    LA PASSWORD DE LOS USUARIOS ESTA HASHEADA, YA QUE EL BACKEND LEE PASSWORD HASHEADAS POR LO TANTO LAS PASSWORD DEBEN SER HASHEADAS
+    el valor de la pass es pass123
+
+
+*****/
 -- Inserción de datos en la tabla User
     INSERT INTO "AppUser" (rut, user_type_id, email, password, first_name, last_name, address, phone_number, birth_date, registration_date, last_session)
     VALUES
-    ('12345678-9', 1, 'consumidor1@barlink.com', 'pass123', 'John', 'Doe', '123 Main St', '+1234567890', '1990-01-01', NOW(), NOW()),
-    ('13355678-9', 1, 'consumidor2@barlink.com', 'pass123', 'Diego', 'Doe', '123 Main St', '+1234567890', '1990-01-01', NOW(), NOW()),
-    ('14365678-9', 1, 'consumidor3@barlink.com', 'pass123', 'Camila', 'Doe', '123 Main St', '+1234567890', '1990-01-01', NOW(), NOW()),
-    ('98765432-1', 2, 'staffbar@barlink.com', 'pass123', 'Jane', 'Smith', '456 Elm St', '+0987654321', '1985-05-15', NOW(), NOW()),
-    ('56789012-3', 3, 'staffcocina@barlink.com', 'pass123', 'Alice', 'Johnson', '789 Oak St', '+1122334455', '1978-12-25', NOW(), NOW()),
-    ('12345679-9', 4, 'admin@barlink.com', 'pass123', 'John', 'Doe', '123 Main St', '+1234567890', '1990-01-01', NOW(), NOW());
+    ('12345678-9', 1, 'consumidor1@barlink.com', '$2b$10$DDRJCL05Z.CRTW.qN61N3u/RtxKEHYOQHybvl.kDnilwxfqwzWF.C', 'John', 'Doe', '123 Main St', '+1234567890', '1990-01-01', NOW(), NOW()),
+    ('13355678-9', 1, 'consumidor2@barlink.com', '$2b$10$DDRJCL05Z.CRTW.qN61N3u/RtxKEHYOQHybvl.kDnilwxfqwzWF.C', 'Diego', 'Doe', '123 Main St', '+1234567890', '1990-01-01', NOW(), NOW()),
+    ('14365678-9', 1, 'consumidor3@barlink.com', '$2b$10$DDRJCL05Z.CRTW.qN61N3u/RtxKEHYOQHybvl.kDnilwxfqwzWF.C', 'Camila', 'Doe', '123 Main St', '+1234567890', '1990-01-01', NOW(), NOW()),
+    ('98765432-1', 2, 'staffbar@barlink.com', '$2b$10$DDRJCL05Z.CRTW.qN61N3u/RtxKEHYOQHybvl.kDnilwxfqwzWF.C', 'Jane', 'Smith', '456 Elm St', '+0987654321', '1985-05-15', NOW(), NOW()),
+    ('56789012-3', 3, 'staffcocina@barlink.com', '$2b$10$DDRJCL05Z.CRTW.qN61N3u/RtxKEHYOQHybvl.kDnilwxfqwzWF.C', 'Alice', 'Johnson', '789 Oak St', '+1122334455', '1978-12-25', NOW(), NOW()),
+    ('12345679-9', 4, 'admin@barlink.com', '$2b$10$DDRJCL05Z.CRTW.qN61N3u/RtxKEHYOQHybvl.kDnilwxfqwzWF.C', 'John', 'Doe', '123 Main St', '+1234567890', '1990-01-01', NOW(), NOW());
 
 -- Inserción de datos en la tabla Bar
 INSERT INTO "Bar" (business_name, commercial_name, business_rut, address, phone_number, email, opening_hours, total_capacity, category, registration_date, status)

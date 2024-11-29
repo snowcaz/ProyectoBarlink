@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('./config/db');
 const app = express();
 const PORT = process.env.PORT || 3000;
+var cors = require('cors');
 
 // Importar rutas
 const userRoutes = require('./routes/userRoutes');
@@ -14,7 +15,7 @@ const historyRoutes = require('./routes/historyRoutes');
 
 // Middleware para parsear JSON
 app.use(express.json());
-
+app.use(cors());
 // Usar las rutas
 app.use('/api', userRoutes);
 app.use('/api', barRoutes);  
@@ -23,8 +24,6 @@ app.use('/api', paymentRoutes);
 app.use ('/api', groupRoutes);
 app.use ('/api', orderSummaryRoutes);
 app.use('/api', historyRoutes);
-
-
 // app.use('/api/users', userRoutes);  
 // app.use('/api/bars', barRoutes);
 // app.use('/api/orders', orderRoutes);

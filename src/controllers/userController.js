@@ -80,10 +80,9 @@ const userController = {
     const { email, password } = req.body;
 
     // Mostrar los datos recibidos para login
-    console.log('Datos recibidos para login:', { email, password });
-
     try {
       const user = await User.getUserByEmail(email);
+
       if (!user) {
         console.log('Usuario no encontrado:', email);
         return res.status(404).json({ message: 'Usuario no encontrado' });

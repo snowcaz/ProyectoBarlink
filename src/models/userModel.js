@@ -1,3 +1,4 @@
+const e = require('express');
 const db = require('../config/db');
 
 class User {
@@ -11,7 +12,10 @@ class User {
   }
 
   static async getUserByEmail(email) {
-    const query = 'SELECT * FROM "AppUser" WHERE email = $1';
+
+    
+    const query = 'SELECT * FROM AppUser WHERE email = $1';
+    
     const { rows } = await db.query(query, [email]);
     return rows[0];
   }

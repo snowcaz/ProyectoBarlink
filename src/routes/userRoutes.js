@@ -10,5 +10,5 @@ router.post('/register-bar-staff', userController.registerStaff);
 
 // Ruta para iniciar sesión
 router.post('/login', userController.login);
-
+  
 module.exports = router;

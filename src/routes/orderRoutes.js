@@ -58,7 +58,6 @@ router.post('/orders', async (req, res) => {
             }
         }
 
-
         res.status(201).json({ message: 'Pedido creado exitosamente', orderTotal_id });
     } catch (error) {
         console.error('Error al crear el pedido:', error);
@@ -106,17 +105,13 @@ router.post('/confirm', async (req, res) => {
 });
 
 
-// Ruta para obtener una orden por su ID
+// Ruta para obtener una orden por su ID (este es el que utilizamos para BarOrderDetails)
 router.get('/orders/:orderTotal_id', async (req, res) => {
     const { orderTotal_id } = req.params;
 
     try {
         // Obtener información del pedido
         const orderQuery =
-            // `SELECT ot.*, og.orderGroup_id, og.name AS group_name, og.total_order AS group_total
-            // FROM "OrderTotal" ot
-            // LEFT JOIN "OrderGroup" og ON ot.group_order = TRUE AND ot.bar_id = og.bar_id
-            // WHERE ot.orderTotal_id = $1`;
             `SELECT 
                 ot.*, 
                 og.orderGroup_id, 
@@ -383,30 +378,34 @@ router.put('/kitchen/reject', async (req, res) => {
 
 router.put('/clear-active-queues', async (req, res) => {
     try {
-        // Actualizar el estado de todas las filas activas en BarQueue y KitchenQueue a 'rejected'
+        console.log('Iniciando limpieza de colas activas...');
+
         const rejectBarQueueQuery = `
             UPDATE "BarQueue"
             SET status = 'rejected', confirmation_date = NOW()
-            WHERE status = 'pending'
+            WHERE status IN ('pending', 'active')
             RETURNING orderDetail_id;
         `;
         const rejectKitchenQueueQuery = `
             UPDATE "KitchenQueue"
             SET status = 'rejected', confirmation_date = NOW()
-            WHERE status = 'pending'
+            WHERE status IN ('pending', 'active')
             RETURNING orderDetail_id;
         `;
 
         const barQueueResult = await db.query(rejectBarQueueQuery);
         const kitchenQueueResult = await db.query(rejectKitchenQueueQuery);
 
-        // Combinar los orderDetail_ids rechazados de ambas colas
+        console.log('Resultados de BarQueue:', barQueueResult.rows);
+        console.log('Resultados de KitchenQueue:', kitchenQueueResult.rows);
+
         const orderDetailIds = [
             ...barQueueResult.rows.map(row => row.orderdetail_id),
             ...kitchenQueueResult.rows.map(row => row.orderdetail_id),
         ];
 
         if (orderDetailIds.length === 0) {
+            console.warn('No hay filas activas para rechazar.');
             return res.status(404).json({ message: 'No hay filas activas para rechazar.' });
         }
 
@@ -418,8 +417,11 @@ router.put('/clear-active-queues', async (req, res) => {
         `;
         const deleteDetailsResult = await db.query(deleteDetailsQuery, [orderDetailIds]);
 
+        console.log('Detalles eliminados:', deleteDetailsResult.rows);
+
         // Ajustar el total en OrderTotal
         for (const row of deleteDetailsResult.rows) {
+            console.log(`Ajustando total para OrderTotal ${row.order_id}`);
             await db.query(`
                 UPDATE "OrderTotal"
                 SET total = COALESCE(total, 0) - $1

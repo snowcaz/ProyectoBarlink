@@ -174,7 +174,6 @@ CREATE TABLE "Notifications" (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-
 -- Índices para optimización
 CREATE INDEX idx_order_total_user ON "OrderTotal"(user_id);
 CREATE INDEX idx_order_total_bar ON "OrderTotal"(bar_id);

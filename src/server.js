@@ -4,7 +4,6 @@ const socketIo = require('socket.io');  // Importa Socket.IO
 const db = require('./config/db');  // Tu configuración de base de datos
 const app = express();
 const PORT = process.env.PORT || 3000;
-var cors = require('cors');
 
 // Importar rutas
 const userRoutes = require('./routes/userRoutes');
@@ -21,7 +20,7 @@ const io = socketIo(server);  // Inicializamos Socket.IO con el servidor HTTP
 
 // Middleware para parsear JSON
 app.use(express.json());
-app.use(cors());
+
 // Usar las rutas
 app.use('/api', userRoutes);
 app.use('/api', barRoutes);
@@ -30,12 +29,6 @@ app.use('/api', paymentRoutes);
 app.use('/api', groupRoutes);
 app.use('/api', orderSummaryRoutes);
 app.use('/api', historyRoutes);
-<<<<<<< HEAD
-=======
-// app.use('/api/users', userRoutes);  
-// app.use('/api/bars', barRoutes);
-// app.use('/api/orders', orderRoutes);
->>>>>>> 1a5987edb1f654bdd011c8df31028eb85e46f2a5
 
 // Ruta para verificar la conexión a la base de datos
 app.get('/test-db', async (req, res) => {

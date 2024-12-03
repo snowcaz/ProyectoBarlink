@@ -2,11 +2,11 @@ const { Pool } = require('pg');
 require('dotenv').config();
 
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: "barlink",
-  password: "root123",
-  port: 5432,
+  user: process.env.AWS_USER,
+  host: process.env.AWS_HOST,
+  database: process.env.AWS_NAME,
+  password: process.env.AWS_PASSWORD,
+  port: process.env.AWS_PORT,
 });
 
 

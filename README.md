@@ -1,3 +1,4 @@
+
 # Proyecto Barlink
 
 Este es el repositorio del backend para el proyecto Barlink, una aplicación móvil que permite a los usuarios realizar pedidos en bares y restaurantes. Los usuarios pueden hacer pedidos individuales o en grupo, y dividir la cuenta al final de su estancia.
@@ -67,19 +68,26 @@ El backend incluye las siguientes rutas principales:
    - `AWS_PORT`
 
 ## Instalación
-1. Clona este repositorio: git clone https://github.com/snowcaz/ProyectoBarlink.git
-
+1. Clona este repositorio:
+   ```
+   git clone https://github.com/Miladatasys/app-bar-backend.git
+   ```
+2. Instala las dependencias:
+   ```
+   npm install
+   ```
 3. Configura las variables de entorno en un archivo `.env`.
 
-4. Ejecuta el servidor: npm start
-
+4. Ejecuta el servidor:
+   ```
+   npm start
+   ```
 
 ## Autor
-- **snowcaz** ([Repositorio GitHub](https://github.com/snowcaz/ProyectoBarlink))
+- **Miladatasys** ([Repositorio GitHub](https://github.com/Miladatasys/app-bar-backend))
 
 ## Contribuciones
 Si deseas contribuir, realiza un fork de este repositorio, realiza tus cambios y envía un pull request.
 
 ## Licencia
 Este proyecto está bajo la licencia MIT.
-"""

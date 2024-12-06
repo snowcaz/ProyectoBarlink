@@ -10,8 +10,7 @@ router.post('/payments/:orderTotal_id/pay', async (req, res) => {
     //const { user_id, groupMember_ids, amounts, payment_method } = req.body;
 
     try {
-        console.log(`Iniciando pago para la orden ${orderTotal_id}`);
-        const orderQuery = `SELECT * FROM "OrderTotal" WHERE orderTotal_id = $1`;
+        const orderQuery = `SELECT user_id, status, total, confirmed_total FROM "OrderTotal" WHERE orderTotal_id = $1`;
         const orderResult = await db.query(orderQuery, [orderTotal_id]);
 
         if (orderResult.rows.length === 0) {
@@ -19,10 +18,15 @@ router.post('/payments/:orderTotal_id/pay', async (req, res) => {
         }
 
         const order = orderResult.rows[0];
+        if (order.user_id !== user_id) {
+            return res.status(403).json({ message: 'No autorizado para realizar el pago.' });
+        }
+
         if (order.status === 'paid') {
             return res.status(400).json({ message: 'El pedido ya está pagado.' });
         }
 
+        console.log(`Iniciando pago para la orden ${orderTotal_id}`);
         console.log(`Estado actual de la orden: ${order.status}`);
         console.log(`Total confirmado actual: ${order.confirmed_total}`);
         console.log(`Total de la orden: ${order.total}`);
@@ -65,7 +69,7 @@ router.post('/payments/:orderTotal_id/pay', async (req, res) => {
         console.log(`Total pagado: ${totalPaid}`);
 
         // Actualizar el total confirmado y el estado de la orden
-        const newConfirmedTotal = parseFloat(order.confirmed_total ||0) + totalPaid;
+        const newConfirmedTotal = parseFloat(order.confirmed_total || 0) + totalPaid;
         const orderStatus = newConfirmedTotal >= parseFloat(order.total) ? 'paid' : 'partially_paid';
 
         console.log(`Actualizando orden con total confirmado: ${newConfirmedTotal}, estado: ${orderStatus}`);
